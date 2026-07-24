@@ -1,0 +1,3 @@
+[submodule "Packages/midiFighterForUnity"]
+	path = Packages/midiFighterForUnity
+	url = https://github.com/caseyfarina/midiFighterForUnity
