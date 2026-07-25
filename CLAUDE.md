@@ -22,6 +22,14 @@ The package is embedded as a **git submodule**, so it's a normal embedded Unity 
 - **Package consumer/integration guide** (how the package is *used* in a scene): `Packages/midiFighterForUnity/CLAUDE.md`.
 - **This file**: how to *work on* the harness + the two-repo git workflow.
 
+## App code vs package — the boundary
+
+**Scene and behaviour code lives in `Assets/Scripts/`. The `midiFighterForUnity` package is a bridge only (MIDI → typed C# events) and must not be modified from this project.**
+
+- New scene behaviour (things that *consume* MIDI events — light rigs, capsule fields, etc.) goes in `Assets/Scripts/`, in its own assembly, referencing `MidiFighter64.Runtime`. Example: the `LightEntityScene` assembly (`Assets/Scripts/`), which implements `Assets/PROMPT_LightEntityScene.md`.
+- Do **not** add app/scene logic inside `Packages/midiFighterForUnity/`. Editing the package there is a package change: it moves the submodule pointer and pulls the two-repo git workflow into play (see below). Only touch the package when you *intend* to change the distributable — and then commit it in the package repo, deliberately.
+- How to consume the package correctly (static-event subscription hygiene, the router APIs) is documented in the package's own `CLAUDE.md`.
+
 ## Cloning
 
 A plain clone leaves `Packages/midiFighterForUnity` empty. Use:
