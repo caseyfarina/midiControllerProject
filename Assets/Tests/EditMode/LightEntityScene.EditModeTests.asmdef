@@ -1,0 +1,22 @@
+{
+  "name": "LightEntityScene.EditModeTests",
+  "rootNamespace": "LightEntityScene.Tests",
+  "references": [
+    "LightEntityScene"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "noEngineReferences": false
+}

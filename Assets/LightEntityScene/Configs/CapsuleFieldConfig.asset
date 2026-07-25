@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af676cdb581c44346a0c9498d298d004, type: 3}
+  m_Name: CapsuleFieldConfig
+  m_EditorClassIdentifier: LightEntityScene::LightEntityScene.CapsuleFieldConfig
+  viewportMargin: 0.08
+  maxRayDistance: 1000
+  minScale: 0.25
+  maxScale: 2
+  pivotAtFloor: 1
+  enforceSpacing: 0
+  minSpacing: 1.5
+  maxPlacementAttempts: 30
