@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 8608661720575105250}
   - component: {fileID: 4934846537581563145}
   - component: {fileID: 8664595878394412260}
+  - component: {fileID: 8664595878394412299}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -256,6 +257,22 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &8664595878394412299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4585688729437480260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273aeb0b55c93a54c80a42df5128eee7, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: LightEntityScene::LightEntityScene.LightIntensityNoise
+  _light: {fileID: 4934846537581563145}
+  _mode: 0
+  _amplitude: 0.05
+  _frequency: 9
 --- !u!1 &7057489873120438146
 GameObject:
   m_ObjectHideFlags: 0
