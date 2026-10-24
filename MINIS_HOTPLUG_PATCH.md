@@ -1,3 +1,8 @@
+> **SUPERSEDED 2026-10-24 — do not apply this patch.** The crash is fixed at its source:
+> RtMidi 6.1.0 (thestk/rtmidi#376) no longer throws from WinMM `closePort()`. Install
+> `https://github.com/caseyfarina/jp.keijiro.rtmidi.git?path=Packages/jp.keijiro.rtmidi#2.2.1-cf.1`
+> and use stock Minis. Verified on hardware with an MF64 + MIDI Mix. Kept for the history.
+
 # Patching Minis to survive MIDI hot-plug
 
 **Copy this file into any Unity project that uses `jp.keijiro.minis` and hand it to

@@ -67,30 +67,22 @@ Two gotchas that both present as **"all cookies look identical"**:
 - **Property reference is case-sensitive.** Shader Graph derives the default reference from the display name, so a property named `Seed` may still compile to `_seed`. `SetFloat("_Seed", …)` against a `_seed` property silently no-ops → every light stays at seed 0. The component now tries both casings and logs a warning if neither exists; check the compiled material's names with `unity command get_material_properties` if in doubt.
 - **Keep Seed Spacing small (≈1).** The graph already multiplies seed by up to ×78.2; a large spacing pushes offsets past Gradient Noise's ~289 repeat and into float-precision breakdown, degenerating back to identical/aliased noise. And remember it only runs in **Play mode** — clear the leftover shared CRT from the lights' Cookie fields so edit mode isn't misleading.
 
-## `Packages/minis` — a patched, embedded copy of Minis
+## MIDI hot-plug: fixed in RtMidi, via the `jp.keijiro.rtmidi` fork
 
-`Packages/minis` is **not stock Minis**. It is `jp.keijiro.minis` 1.3.2 copied out of
-`Library/PackageCache` and patched to survive MIDI hot-plug, which otherwise hard-kills
-the editor *and* shipped builds. It is embedded, so it overrides the registry version
-automatically; **delete the folder and focus Unity to revert to stock**, which is also
-the A/B test.
+Plugging in or unplugging any MIDI device used to hard-kill the editor *and* shipped
+builds. The bug was in RtMidi 6.0.0, bundled by stock `jp.keijiro.rtmidi` 2.2.0: WinMM's
+`closePort()` threw `RtMidiError` from the destructor and reached `terminate()`. RtMidi
+6.1.0 fixed it (thestk/rtmidi#376). This project now installs
+**`caseyfarina/jp.keijiro.rtmidi` at tag `2.2.1-cf.1`** by git URL in `manifest.json`,
+whose Windows DLL is rebuilt from 6.1.0, and uses **stock Minis** 1.3.2.
 
-- What it changes and why: `Packages/minis/PATCH_NOTES.md`.
-- Portable how-to for other projects: **`MINIS_HOTPLUG_PATCH.md`** (project root) —
-  self-contained, hand it to Claude Code in any project that uses Minis.
-
-Three things to know before touching it:
-
-- **It is project-local and deliberately not shipped.** The `midiFighterForUnity` package
-  still declares a plain `jp.keijiro.minis` dependency, so consumers get stock Minis and
-  still crash. Shipping the fix would mean forking `keijiro/Minis` and repointing the
-  dependency — a maintenance decision, deferred.
-- **It leaks by design** — a few KB per abandoned MIDI port, including on every domain
-  reload. If Unity's memory creeps across a long session of recompiles, suspect this
-  first.
-- **Both halves of the patch are required.** Abandoning the handle without first
-  cancelling the native callbacks is *worse than stock* — it trades a crash on free for
-  a crash in WinMM's `DriverCallback`. That was tried; the stack is in `PATCH_NOTES.md`.
+- Verified 2026-10-24 on hardware (MF64 + MIDI Mix): unplug/replug in Edit and Play
+  mode, and domain reloads with both connected, all survive and reconnect, LEDs re-push.
+- The fork's `RtMidi/hotplug-test` reproduces the crash outside Unity, for A/B checks.
+- **Do not reinstate the old patched Minis** (embedded `Packages/minis`, which abandoned
+  handles instead of freeing them). It was a verified workaround from 2026-09-04, now
+  superseded; it leaked a few KB per port change. It is in git history at `cad86e4`.
+- Drop the fork and go back to the registry package once Keijiro ships RtMidi 6.1.0.
 
 Because it is a copy rather than a dependency, a Minis upgrade means re-applying the
 patch. Every edit is marked `LOCAL PATCH` in the source.
